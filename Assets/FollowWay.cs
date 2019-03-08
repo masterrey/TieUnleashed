@@ -28,9 +28,10 @@ public class FollowWay : MonoBehaviour
         Vector3 total = ways[index].transform.position -  oldpos;
         float normDistTogo = Vector3.Dot(total, direction) / Vector3.Dot(total, total);
         
-        
-        transform.rotation = Quaternion.Lerp
+        Quaternion rototogo= Quaternion.Lerp
             (oldrot, Quaternion.LookRotation(direction),1- normDistTogo);
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, rototogo, Time.deltaTime);
 
         if (Vector3.Distance(transform.position, ways[index].transform.position) < 1)
         {

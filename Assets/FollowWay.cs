@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class FollowWay : MonoBehaviour
 {
-    public GameObject[] ways;
-    public int index;
+    public GameObject wayfather;
+    Transform[] ways;
+    public int index=1;
     public float velocity = 10;
     Vector3 oldpos;
     Quaternion oldrot;
     // Start is called before the first frame update
     void Start()
     {
+        ways=wayfather.GetComponentsInChildren<Transform>();
         oldpos = transform.position;
         oldrot = transform.rotation;
     }
@@ -23,15 +25,11 @@ public class FollowWay : MonoBehaviour
         transform.position = Vector3.MoveTowards
             (transform.position,ways[index].transform.position,Time.deltaTime* velocity);
 
-        //lerp invertido
+     
         Vector3 direction = ways[index].transform.position - transform.position;
-        Vector3 total = ways[index].transform.position -  oldpos;
-        float normDistTogo = Vector3.Dot(total, direction) / Vector3.Dot(total, total);
-        
-        Quaternion rototogo= Quaternion.Lerp
-            (oldrot, Quaternion.LookRotation(direction),1- normDistTogo);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, rototogo, Time.deltaTime);
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime);
 
         if (Vector3.Distance(transform.position, ways[index].transform.position) < 1)
         {

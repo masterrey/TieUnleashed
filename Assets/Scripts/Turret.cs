@@ -6,12 +6,15 @@ public class Turret : MonoBehaviour
 {
     public GameObject barrel, support;
     GameObject target;
+   
     public ParticleSystem weapon;
     bool work = false;
+    public float antecipation = 1;
     // Start is called before the first frame update
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player");
+      
     }
 
     // Update is called once per frame
@@ -19,7 +22,10 @@ public class Turret : MonoBehaviour
     {
         if (work)
         {
-            barrel.transform.LookAt(target.transform);
+
+            barrel.transform.LookAt(target.transform.position+(target.transform.forward*antecipation));
+
+
             support.transform.rotation = Quaternion.Euler
                 (-90,
                 barrel.transform.rotation.eulerAngles.y,
